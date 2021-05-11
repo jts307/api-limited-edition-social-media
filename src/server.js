@@ -2,6 +2,17 @@ import express from 'express';
 import cors from 'cors';
 import path from 'path';
 import morgan from 'morgan';
+import mongoose from 'mongoose';
+import apiRouter from './router';
+
+// DB Setup
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/platform_db';
+
+mongoose.connect(mongoURI).then(() => {
+  console.log('connected to database:', mongoURI);
+}).catch((err) => {
+  console.log('error: could not connect to db:', err);
+});
 
 // initialize
 const app = express();
@@ -26,6 +37,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); // To parse the incoming requests with JSON payloads
 
 // additional init stuff should go before hitting the routing
+// REGISTER OUR ROUTES -------------------------------
+// all of our routes will be prefixed with /api
+// this should go AFTER body parser
+app.use('/api', apiRouter);
 
 // default index route
 app.get('/', (req, res) => {
