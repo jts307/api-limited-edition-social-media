@@ -1,22 +1,53 @@
-// import Post from '../models/post_model';
+import Post from '../models/post_model';
 
 export const createPost = async (postFields) => {
-  // await creating a post
-  // return post
+  // create new post
+  const post = new Post();
+  post.title = postFields.title;
+  post.tags = postFields.tags;
+  post.content = postFields.content;
+  post.coverUrl = postFields.coverUrl;
+
+  try {
+    const savedpost = await post.save();
+    return savedpost;
+  } catch (error) {
+    throw new Error(`create post error: ${error}`);
+  }
 };
 export const getPosts = async () => {
-  // await finding posts
-  // return posts
+  // All posts
+  try {
+    const allPosts = await Post.find({});
+    return allPosts;
+  } catch (error) {
+    throw new Error(`get posts error: ${error}`);
+  }
 };
 export const getPost = async (id) => {
-  // await finding one post
-  // return post
+  // Single Post
+  try {
+    const post = await Post.findById(id);
+    return post;
+  } catch (error) {
+    throw new Error(`get post error: ${error}`);
+  }
 };
 export const deletePost = async (id) => {
-  // await deleting a post
-  // return confirmation
+  // Delete a single post
+  try {
+    const postToDelete = await Post.findByIdAndDelete(id);
+    return postToDelete;
+  } catch (error) {
+    throw new Error(`delete post error: ${error}`);
+  }
 };
 export const updatePost = async (id, postFields) => {
-  // await updating a post by id
-  // return *updated* post
+  // Update a single post
+  try {
+    const updatedPost = await Post.findByIdAndUpdate(id, postFields);
+    return updatedPost;
+  } catch (error) {
+    throw new Error(`update post error: ${error}`);
+  }
 };

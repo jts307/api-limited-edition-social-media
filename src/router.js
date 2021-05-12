@@ -15,16 +15,16 @@ router.get('/', (req, res) => {
 // GET /posts: Posts.getPosts
 router.route('/posts')
   .post(async (req, res) => {
-    // Test
-    res.json({ title: 'hi' });
     // body will have all the json fields. This is what the bodyparser is for.
-    Posts.createPost(req.body);
+    await Posts.createPost(req.body).then((value) => {
+      res.json(value);
+    });
   })
   .get(async (req, res) => {
     // No parameters for this one
-    // Test
-    res.json({ title: 'hi' });
-    Posts.getPosts();
+    await Posts.getPosts().then((value) => {
+      res.json(value);
+    });
   });
 
 // GET /posts/:id: Posts.getPost
@@ -33,19 +33,19 @@ router.route('/posts')
 router.route('/posts/:id')
   .get(async (req, res) => {
     // Based on parameters above^ :id
-    // Test
-    res.json({ title: 'hi' });
-    Posts.getPost(req.params.id);
+    await Posts.getPost(req.params.id).then((value) => {
+      res.json(value);
+    });
   })
   .put(async (req, res) => {
-    // Test
-    res.json({ title: 'hi' });
-    Posts.updatePost(req.params.id, req.body);
+    await Posts.updatePost(req.params.id, req.body).then((value) => {
+      res.json({ updated: value });
+    });
   })
   .delete(async (req, res) => {
-    // Test
-    res.json({ title: 'hi' });
-    Posts.deletePost(req.params.id);
+    await Posts.deletePost(req.params.id).then((value) => {
+      res.json({ deleted: value });
+    });
   });
 
 export default router;
