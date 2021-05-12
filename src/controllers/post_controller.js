@@ -45,7 +45,7 @@ export const deletePost = async (id) => {
 export const updatePost = async (id, postFields) => {
   // Update a single post
   try {
-    const updatedPost = await Post.findByIdAndUpdate(id, postFields);
+    const updatedPost = await Post.findByIdAndUpdate(id, postFields, { new: true });
     return updatedPost;
   } catch (error) {
     throw new Error(`update post error: ${error}`);

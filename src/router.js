@@ -39,7 +39,7 @@ router.route('/posts/:id')
   })
   .put(async (req, res) => {
     await Posts.updatePost(req.params.id, req.body).then((value) => {
-      res.json({ updated: value });
+      res.json(value);
     });
   })
   .delete(async (req, res) => {
