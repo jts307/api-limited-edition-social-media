@@ -8,6 +8,8 @@ const PostSchema = new Schema({
   tags: String,
   content: String,
   coverUrl: String,
+  author: { type: Schema.Types.ObjectId, ref: 'User' },
+  createdAt: Number,
 });
 
 // create a PostModel class from schema
