@@ -4,9 +4,41 @@
 
 ![DEPLOYED API](https://lmited-edition-socialmedia-api.herokuapp.com/api/)
 
-TODO: short project description, some sample screenshots or mockups
-
 The API behind our social media platform that restricts the number of unique viewers per post.
+
+## Mock Up
+
+Explore page (temporary gif until we come up with mockup): 
+
+![screenshootOfExploreSeciton](https://github.com/blakesanie/React-Bubble-UI/blob/HEAD/example/public/demo.gif?raw=true)
+
+Standard View 
+
+![screenshootOfStandardView]()
+
+Searching in Standard View:
+
+![screenshootOfSearching]()
+
+Sign-Up Flow: 
+
+![screenshootOfSignUpFlow]()
+
+Create a post:
+
+![screenshootOfCreatingPost]()
+
+Profile View:
+
+![screenshootOfProfileView]()
+
+Live Commenting:
+
+![screenshootOfLiveCommenting]()
+
+Messaging:
+
+![screenshootOfMessaging]()
 
 ## Architecture
 
@@ -45,4 +77,6 @@ The Team:
   - Nalin Vattigunta
   - Sudharsan Balasubramani
 
-## Acknowledgments
+## :heart: Acknowledgments :heart:
+
+Acnowledgement to our professor, Tim Tregubov, for his amazing insight and feedback. <3
