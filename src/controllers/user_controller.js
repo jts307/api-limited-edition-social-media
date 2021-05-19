@@ -28,6 +28,8 @@ export const signup = async ({ email, password, authorname }) => {
   user.email = email;
   user.password = password;
   user.author = authorname;
+  user.followingList = [];
+  user.followerList = [];
   await user.save();
   return tokenForUser(user);
 };

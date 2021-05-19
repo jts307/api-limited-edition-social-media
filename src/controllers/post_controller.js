@@ -4,10 +4,10 @@ export const createPost = async (user, postFields) => {
   // create new post
   const post = new Post();
   post.author = user;
-  post.title = postFields.title;
-  post.tags = postFields.tags;
+  post.caption = postFields.caption,
   post.content = postFields.content;
-  post.coverUrl = postFields.coverUrl;
+  post.viewLimit = postFields.viewLimit;
+  post.currentViews = postFields.currentViews;
 
   try {
     const savedpost = await post.save();

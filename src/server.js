@@ -6,7 +6,7 @@ import mongoose from 'mongoose';
 import apiRouter from './router';
 
 // DB Setup
-const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/platform_db';
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/socialmedia_db';
 
 mongoose.connect(mongoURI).then(() => {
   console.log('connected to database:', mongoURI);

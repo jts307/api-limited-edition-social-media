@@ -4,12 +4,11 @@ import mongoose, { Schema } from 'mongoose';
 
 // create a PostSchema with a title field
 const PostSchema = new Schema({
-  title: String,
-  tags: String,
   content: String,
-  coverUrl: String,
+  caption: String,
   author: { type: Schema.Types.ObjectId, ref: 'User' },
-  createdAt: Number,
+  viewLimit: Number,
+  currentViews: Number,
 });
 
 // create a PostModel class from schema

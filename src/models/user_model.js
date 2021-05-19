@@ -8,6 +8,8 @@ const UserSchema = new Schema({
   email: { type: String, unique: true, lowercase: true },
   password: { type: String },
   author: { type: String },
+  followingList:  { type: [Schema.Types.ObjectId], ref: 'User' },
+  followerList: { type: [Schema.Types.ObjectId], ref: 'User' }
 },
 {
   toObject: { virtuals: true },
