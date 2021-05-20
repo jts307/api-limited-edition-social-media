@@ -8,8 +8,8 @@ const UserSchema = new Schema({
   email: { type: String, unique: true, lowercase: true },
   password: { type: String },
   author: { type: String },
-  followingList:  { type: [Schema.Types.ObjectId], ref: 'User' },
-  followerList: { type: [Schema.Types.ObjectId], ref: 'User' }
+  followingList: { type: [Schema.Types.ObjectId], ref: 'User' },
+  followerList: { type: [Schema.Types.ObjectId], ref: 'User' },
 },
 {
   toObject: { virtuals: true },
@@ -33,7 +33,6 @@ UserSchema.pre('save', async function beforeUserSave(next) {
 });
 
 UserSchema.methods.comparePassword = async function comparePassword(candidatePassword) {
-  console.log('getting here');
   console.log(candidatePassword);
   console.log(this.password);
   const comparison = await bcrypt.compare(candidatePassword, this.password);
