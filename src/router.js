@@ -9,7 +9,6 @@ router.get('/', (req, res) => {
   res.json({ message: 'Welcome to Limited Edition Social Media API!' });
 });
 
-/// your routes will go here
 // In this syntax, req and res are provided as parameters for the functions.
 
 // Learned about routing from https://www.youtube.com/watch?v=JlgKybraoy4 and Tim
