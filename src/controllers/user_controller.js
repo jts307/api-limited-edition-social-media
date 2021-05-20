@@ -23,7 +23,7 @@ export const signup = async ({ email, password, authorname }) => {
     throw new Error('Email is in use');
   }
 
-  // create new user
+  // create new user -- edited to reflect user model changes yuh
   const user = new User();
   user.email = email;
   user.password = password;

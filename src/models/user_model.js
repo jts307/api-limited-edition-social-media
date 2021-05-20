@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 
 // Adapted from express-mongo-server side SA
 
-// create a PostSchema with a title field
+// edited user model to have a following and follower list, which are arrays of User objects
 const UserSchema = new Schema({
   email: { type: String, unique: true, lowercase: true },
   password: { type: String },
