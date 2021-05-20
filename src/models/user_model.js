@@ -7,6 +7,7 @@ import bcrypt from 'bcryptjs';
 const UserSchema = new Schema({
   email: { type: String, unique: true, lowercase: true },
   password: { type: String },
+  username: { type: String },
   author: { type: String },
   followingList: { type: [Schema.Types.ObjectId], ref: 'User' },
   followerList: { type: [Schema.Types.ObjectId], ref: 'User' },
@@ -33,10 +34,7 @@ UserSchema.pre('save', async function beforeUserSave(next) {
 
 // Check to see if the candidate password is identical to the real password.
 UserSchema.methods.comparePassword = async function comparePassword(candidatePassword) {
-  console.log(candidatePassword);
-  console.log(this.password);
   const comparison = await bcrypt.compare(candidatePassword, this.password);
-  console.log(comparison);
   return comparison;
 };
 

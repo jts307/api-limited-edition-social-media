@@ -26,6 +26,7 @@ export const signup = async ({ email, password, authorname }) => {
   // create new user -- edited to reflect user model changes yuh
   const user = new User();
   user.email = email;
+  user.username = email;
   user.password = password;
   user.author = authorname;
   user.followingList = [];
