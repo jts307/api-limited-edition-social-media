@@ -32,6 +32,7 @@ UserSchema.pre('save', async function beforeUserSave(next) {
   return next();
 });
 
+// Check to see if the candidate password is identical to the real password.
 UserSchema.methods.comparePassword = async function comparePassword(candidatePassword) {
   console.log(candidatePassword);
   console.log(this.password);
