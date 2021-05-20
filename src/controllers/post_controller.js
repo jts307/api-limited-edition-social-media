@@ -4,7 +4,7 @@ export const createPost = async (user, postFields) => {
   // create new post
   const post = new Post();
   post.author = user;
-  post.caption = postFields.caption,
+  post.caption = postFields.caption;
   post.content = postFields.content;
   post.viewLimit = postFields.viewLimit;
   post.currentViews = postFields.currentViews;
