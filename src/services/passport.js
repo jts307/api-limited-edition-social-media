@@ -34,15 +34,12 @@ const localLogin = new LocalStrategy(localOptions, async (email, password, done)
   }
 
   if (!user) {
-    // console.log('Hello');
     // If we don't have a user in the first place, then we return done with null, false because there is no user to log on to
     return done(null, false);
   } else if (!isMatch) {
-    // console.log('Hello2');
     // If the password is not a match, then we done with false because we shouldn't allow the user to log in
     return done(null, false);
   } else {
-    // console.log('Hello3');
     // If we have a user and we have a match in password, then we done with the user because we want to allow the user to locally login.
     return done(null, user);
   }

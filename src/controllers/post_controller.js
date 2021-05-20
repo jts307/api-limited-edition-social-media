@@ -2,9 +2,11 @@ import Post from '../models/post_model';
 
 export const createPost = async (user, postFields) => {
   // create new post
+
+  // edited createPost to reflect post model changes.
   const post = new Post();
   post.author = user;
-  post.caption = postFields.caption,
+  post.caption = postFields.caption;
   post.content = postFields.content;
   post.viewLimit = postFields.viewLimit;
   post.currentViews = postFields.currentViews;

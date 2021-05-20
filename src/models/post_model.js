@@ -2,7 +2,8 @@ import mongoose, { Schema } from 'mongoose';
 
 // Adapted from express-mongo-server side SA
 
-// create a PostSchema with a title field
+// edited to create a "post" that has a caption, content, which will probably be in the form of a url, an author, which is a User object, viewLimit and current Views
+// added in .env to test auth secrets
 const PostSchema = new Schema({
   content: String,
   caption: String,
