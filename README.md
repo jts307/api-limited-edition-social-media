@@ -2,7 +2,7 @@
 
 ![Team Photo](https://i.imgur.com/bTG56lp.jpg)
 
-![DEPLOYED API](https://lmited-edition-socialmedia-api.herokuapp.com/api/)
+[DEPLOYED API](https://lmited-edition-socialmedia-api.herokuapp.com/api/)
 
 The API behind our social media platform that restricts the number of unique viewers per post.
 
