@@ -10,7 +10,7 @@ export const signin = (user) => {
 };
 
 // note the lovely destructuring here indicating that we are passing in an object with these 3 keys
-export const signup = async ({ email, password, authorname }) => {
+export const signup = async ({ email, password, displayname, username }) => {
   // No email and pw
   if (!email || !password) {
     throw new Error('You must provide email and password');
@@ -26,9 +26,9 @@ export const signup = async ({ email, password, authorname }) => {
   // create new user -- edited to reflect user model changes yuh
   const user = new User();
   user.email = email;
-  user.username = email;
+  user.username = username;
   user.password = password;
-  user.author = authorname;
+  user.displayname = displayname;
   user.followingList = [];
   user.followerList = [];
   await user.save();
