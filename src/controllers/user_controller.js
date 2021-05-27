@@ -35,6 +35,8 @@ export const signup = async ({ email, password, authorname }) => {
   return tokenForUser(user);
 };
 
+// export const search = (user) => {}
+
 // helper for encoding a new token for a user object
 function tokenForUser(user) {
   const timestamp = new Date().getTime();
