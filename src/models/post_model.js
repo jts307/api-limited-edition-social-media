@@ -10,8 +10,15 @@ const PostSchema = new Schema({
   caption: String,
   viewLimit: Number,
   currentViews: Number,
+  coverBlur: Number,
+  hashtags: [String],
   // placing this below to group the more similar fields above
   author: { type: Schema.Types.ObjectId, ref: 'User' },
+},
+{
+  timestamps: true,
+  toObject: { virtuals: true },
+  toJSON: { virtuals: true },
 });
 
 // create a PostModel class from schema

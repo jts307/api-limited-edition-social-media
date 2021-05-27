@@ -2,22 +2,23 @@ import Post from '../models/post_model';
 
 export const createPost = async (user, postFields) => {
   // create new post
-
-  // edited createPost to reflect post model changes.
   const post = new Post();
   post.author = user;
   post.caption = postFields.caption;
   post.content = postFields.content;
   post.viewLimit = postFields.viewLimit;
   post.currentViews = postFields.currentViews;
-
+  post.hashtags = postFields.hashtags;
+  post.coverBlur = postFields.coverBlur;
   try {
+    // await creating a new post, then return it
     const savedpost = await post.save();
     return savedpost;
   } catch (error) {
     throw new Error(`create post error: ${error}`);
   }
 };
+
 export const getPosts = async () => {
   // All posts
   try {
@@ -27,6 +28,7 @@ export const getPosts = async () => {
     throw new Error(`get posts error: ${error}`);
   }
 };
+
 export const getPost = async (id) => {
   // Single Post
   try {
@@ -36,6 +38,7 @@ export const getPost = async (id) => {
     throw new Error(`get post error: ${error}`);
   }
 };
+
 export const deletePost = async (id) => {
   // Delete a single post
   try {
@@ -45,6 +48,7 @@ export const deletePost = async (id) => {
     throw new Error(`delete post error: ${error}`);
   }
 };
+
 export const updatePost = async (id, postFields) => {
   // Update a single post
   try {
