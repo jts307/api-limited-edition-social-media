@@ -9,11 +9,13 @@ export const signin = (user) => {
   return tokenForUser(user);
 };
 
-// note the lovely destructuring here indicating that we are passing in an object with these 3 keys
-export const signup = async ({ email, password, authorname }) => {
+// note the lovely destructuring here indicating that we are passing in an object with these 4 keys
+export const signup = async ({
+  email, password, displayname, username,
+}) => {
   // No email and pw
-  if (!email || !password) {
-    throw new Error('You must provide email and password');
+  if (!email || !password || !displayname || !username) {
+    throw new Error('Please fill out all fields.');
   }
 
   // Check if a user with the given email address exists
@@ -26,9 +28,9 @@ export const signup = async ({ email, password, authorname }) => {
   // create new user -- edited to reflect user model changes yuh
   const user = new User();
   user.email = email;
-  user.username = email;
+  user.username = username;
   user.password = password;
-  user.author = authorname;
+  user.displayname = displayname;
   user.followingList = [];
   user.followerList = [];
   await user.save();
