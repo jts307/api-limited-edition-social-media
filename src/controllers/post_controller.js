@@ -22,7 +22,7 @@ export const createPost = async (user, postFields) => {
 export const getPosts = async () => {
   // All posts
   try {
-    const allPosts = await Post.find({}).populate('author');
+    const allPosts = await Post.find({}, null, { sort: { createdAt: -1 } }).populate('author');
     return allPosts;
   } catch (error) {
     throw new Error(`get posts error: ${error}`);
