@@ -6,6 +6,7 @@ import User from '../models/user_model';
 dotenv.config({ silent: true });
 
 export const signin = (user) => {
+  console.warn(`www is blue ${user}`);
   return tokenForUser(user);
 };
 
@@ -13,6 +14,7 @@ export const signin = (user) => {
 export const signup = async ({
   email, password, displayname, username,
 }) => {
+  console.warn(`${email} is green ${username}`);
   // No email and pw
   if (!email || !password || !displayname || !username) {
     throw new Error('Please fill out all fields.');
@@ -35,6 +37,15 @@ export const signup = async ({
   user.followerList = [];
   await user.save();
   return tokenForUser(user);
+};
+
+export const getUser = async (id) => {
+  try {
+    return await User.findById(id);
+  } catch (error) {
+    console.log(`get user error: ${error}`);
+    throw new Error(`get user error: ${error}`);
+  }
 };
 
 // helper for encoding a new token for a user object

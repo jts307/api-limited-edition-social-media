@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import jwt from 'jwt-simple';
 import * as Posts from './controllers/post_controller';
 import * as UserController from './controllers/user_controller';
 import { requireAuth, requireSignin } from './services/passport';
@@ -90,6 +91,23 @@ router.post('/signup', async (req, res) => {
   try {
     const token = await UserController.signup(req.body);
     res.json({ token, email: req.body.email });
+  } catch (error) {
+    res.status(422).send({ error: error.toString() });
+  }
+});
+
+router.post('/profile', async (req, res) => {
+  try {
+    const { sub } = jwt.decode(req.headers.authorization, process.env.AUTH_SECRET);
+    console.warn(`view ${sub}`);
+    const user = await UserController.getUser(sub);
+    const response = {
+      displayname: user.displayname,
+      following: user.followingList.length,
+      follower: user.followerList.length,
+    };
+    console.warn(`Transform ${sub} -> ${JSON.stringify(response)}`);
+    res.json(response);
   } catch (error) {
     res.status(422).send({ error: error.toString() });
   }
