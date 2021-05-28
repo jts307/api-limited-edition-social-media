@@ -10,6 +10,8 @@ const UserSchema = new Schema({
   displayname: { type: String },
   followingList: { type: [Schema.Types.ObjectId], ref: 'User' },
   followerList: { type: [Schema.Types.ObjectId], ref: 'User' },
+  profilePic: { type: String },
+  badges: { type: [Schema.Types.ObjectId], ref: 'User' },
 },
 {
   toObject: { virtuals: true },
