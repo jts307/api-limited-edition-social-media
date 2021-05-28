@@ -96,10 +96,10 @@ router.post('/signup', async (req, res) => {
 });
 
 // search route
-router.post('/search', async (req, res) => {
+router.get('/search', async (req, res) => {
   try {
-    const token = await UserController.signup(req.body);
-    res.json({ token, email: req.body.email });
+    const users = await UserController.search();
+    res.json({ users });
   } catch (error) {
     res.status(422).send({ error: error.toString() });
   }

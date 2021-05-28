@@ -39,6 +39,16 @@ export const signup = async ({
 
 // export const search = (user) => {}
 
+export const search = async () => {
+  // All posts
+  try {
+    const allUsers = await User.find({}, {displayname:1});
+    return allUsers;
+  } catch (error) {
+    throw new Error(`get users error: ${error}`);
+  }
+};
+
 // helper for encoding a new token for a user object
 function tokenForUser(user) {
   const timestamp = new Date().getTime();
