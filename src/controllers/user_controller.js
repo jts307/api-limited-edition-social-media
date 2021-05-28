@@ -26,13 +26,16 @@ export const signup = async ({
   }
 
   // create new user -- edited to reflect user model changes yuh
+  const picURL = 'https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png';
   const user = new User();
   user.email = email;
   user.username = username;
   user.password = password;
   user.displayname = displayname;
+  user.profilePic = picURL;
   user.followingList = [];
   user.followerList = [];
+  user.badges = [];
   await user.save();
   return tokenForUser(user);
 };

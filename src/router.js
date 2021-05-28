@@ -99,16 +99,16 @@ router.post('/signup', async (req, res) => {
 router.post('/profile', async (req, res) => {
   try {
     const { sub } = jwt.decode(req.headers.authorization, process.env.AUTH_SECRET);
-    // console.warn(`view ${sub}`);
     const user = await UserController.getUser(sub);
     const response = {
       displayname: user.displayname,
       email: user.email,
-      followerList: user.followingList,
-      followingList: user.followerList,
+      followerList: user.followerList,
+      followingList: user.followingList,
       username: user.username,
+      badges: user.badges,
+      profilePic: user.profilePic,
     };
-    // console.warn(`Transform ${sub} -> ${JSON.stringify(response)}`);
     res.json(response);
   } catch (error) {
     res.status(422).send({ error: error.toString() });
