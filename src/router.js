@@ -99,10 +99,31 @@ router.post('/signup', async (req, res) => {
 router.get('/search', async (req, res) => {
   try {
     const users = await UserController.search();
-    res.json({ users });
+    res.json(users);
+  } catch (error) {
+    res.status(422).send({ error: error.toString() });
+  }
+});
+
+// archive route
+router.post('/archive', async (req, res) => {
+  try {
+    await UserController.addArchive(req.user.id, req.body.postid);
+  } catch (error) {
+    res.status(422).send({ error: error.toString() });
+  }
+});
+
+// archiveFeed route
+router.get('/archivedFeed', async (req, res) => {
+  try {
+    const archivefeed = await UserController.getArchivedFeed(req.user.id);
+    res.json(archivefeed);
   } catch (error) {
     res.status(422).send({ error: error.toString() });
   }
 });
 
 export default router;
+
+

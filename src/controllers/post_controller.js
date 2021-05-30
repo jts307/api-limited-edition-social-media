@@ -10,6 +10,7 @@ export const createPost = async (user, postFields) => {
   post.currentViews = postFields.currentViews;
   post.hashtags = postFields.hashtags;
   post.coverBlur = postFields.coverBlur;
+  post.archive = postFields.archive;
   try {
     // await creating a new post, then return it
     const savedpost = await post.save();
@@ -58,3 +59,4 @@ export const updatePost = async (id, postFields) => {
     throw new Error(`update post error: ${error}`);
   }
 };
+

@@ -12,6 +12,8 @@ const PostSchema = new Schema({
   currentViews: Number,
   coverBlur: Number,
   hashtags: [String],
+  // whether an author wants to allow their post to be archived or not
+  archive: Boolean,
   // placing this below to group the more similar fields above
   author: { type: Schema.Types.ObjectId, ref: 'User' },
 },

@@ -33,21 +33,45 @@ export const signup = async ({
   user.displayname = displayname;
   user.followingList = [];
   user.followerList = [];
+  // each user has their own unique collection of archived posts
+  user.archivedFeed = [];
   await user.save();
   return tokenForUser(user);
 };
 
 // export const search = (user) => {}
 
-export const search = async () => {
+export const search = async (name) => {
   // All posts
   try {
-    const allUsers = await User.find({}, {displayname:1});
-    return allUsers;
+    const user = await User.find({ $text: { $search: name } })
+    return user;
   } catch (error) {
     throw new Error(`get users error: ${error}`);
   }
 };
+
+export const addArchive = async (userid, postid) => {
+  try {
+    // add post to archivedFeed by id
+    const userID = await User.findById(userid);
+    userID.update({$push: {archivedFeed: postid}});
+  }
+  catch (error) {
+    throw new Error(`get users error: ${error}`);
+  }
+}
+
+export const getArchivedFeed = async (userid) => {
+  try {
+    // add post to archivedFeed by id
+    const userID = await User.findById(userid).populate(archivedFeed);
+    return userID.archivedFeed;
+  }
+  catch (error) {
+    throw new Error(`get users error: ${error}`);
+  }
+}
 
 // helper for encoding a new token for a user object
 function tokenForUser(user) {
