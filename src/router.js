@@ -108,8 +108,49 @@ router.post('/profile', async (req, res) => {
       username: user.username,
       badges: user.badges,
       profilePic: user.profilePic,
+      id: user.id,
     };
     res.json(response);
+  } catch (error) {
+    res.status(422).send({ error: error.toString() });
+  }
+});
+
+router.post('/profile/follow/:id', async (req, res) => {
+  try {
+    const { sub } = jwt.decode(req.headers.authorization, process.env.AUTH_SECRET);
+    const user = await UserController.getUser(sub);
+    const otherUser = await UserController.getUser(req.params.id);
+    if (user === undefined || otherUser === undefined) {
+      res.status(400).send({ error: 'Invalid user' });
+    }
+    if (!user.followingList.includes(otherUser.id)) {
+      user.followingList.push(otherUser.id);
+      otherUser.followerList.push(user.id);
+      await user.save();
+      await otherUser.save();
+    }
+    res.json({ user: user.followingList, otherUser: otherUser.followerList });
+  } catch (error) {
+    res.status(422).send({ error: error.toString() });
+  }
+});
+
+router.post('/profile/unfollow/:id', async (req, res) => {
+  try {
+    const { sub } = jwt.decode(req.headers.authorization, process.env.AUTH_SECRET);
+    const user = await UserController.getUser(sub);
+    const otherUser = await UserController.getUser(req.params.id);
+    if (user === undefined || otherUser === undefined) {
+      res.status(400).send({ error: 'Invalid user' });
+    }
+    if (user.followingList.includes(otherUser.id)) {
+      user.followingList.remove(otherUser.id);
+      otherUser.followerList.remove(user.id);
+      await user.save();
+      await otherUser.save();
+    }
+    res.json({ user: user.followingList, otherUser: otherUser.followerList });
   } catch (error) {
     res.status(422).send({ error: error.toString() });
   }
