@@ -27,7 +27,7 @@ const localLogin = new LocalStrategy(localOptions, async (email, password, done)
   let isMatch;
   try {
     user = await User.findOne({ email });
-    isMatch = await user.comparePassword(password);
+    isMatch = await user?.comparePassword(password);
   } catch (error) {
     // calls done with an error if either findOne or the comparePassword functions fail
     return done(error);

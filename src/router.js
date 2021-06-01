@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import jwt from 'jwt-simple';
 import * as Posts from './controllers/post_controller';
 import * as UserController from './controllers/user_controller';
 import { requireAuth, requireSignin } from './services/passport';
@@ -17,16 +18,26 @@ router.get('/', (req, res) => {
 // GET /posts: Posts.getPosts
 router.route('/posts')
   .post(requireAuth, async (req, res) => {
-    // body will have all the json fields. This is what the bodyparser is for.
-    await Posts.createPost(req.user, req.body).then((value) => {
-      res.json(value);
-    });
+    try {
+      // body will have all the json fields. This is what the bodyparser is for.
+      await Posts.createPost(req.user, req.body).then((value) => {
+        res.json(value);
+      });
+    } catch (error) {
+      // or catch the error and send back an error
+      res.status(500).json({ error });
+    }
   })
   .get(async (req, res) => {
-    // No parameters for this one
-    await Posts.getPosts().then((value) => {
-      res.json(value);
-    });
+    try {
+      // No parameters for this one
+      await Posts.getPosts().then((value) => {
+        res.json(value);
+      });
+    } catch (error) {
+      // or catch the error and send back an error
+      res.status(500).json({ error });
+    }
   });
 
 // GET /posts/:id: Posts.getPost
@@ -34,20 +45,35 @@ router.route('/posts')
 // DELETE /posts/:id: Posts.deletePost
 router.route('/posts/:id')
   .get(async (req, res) => {
-    // Based on parameters above^ :id
-    await Posts.getPost(req.params.id).then((value) => {
-      res.json(value);
-    });
+    try {
+      // Based on parameters above^ :id
+      await Posts.getPost(req.params.id).then((value) => {
+        res.json(value);
+      });
+    } catch (error) {
+      // or catch the error and send back an error
+      res.status(500).json({ error });
+    }
   })
   .put(requireAuth, async (req, res) => {
-    await Posts.updatePost(req.params.id, req.body).then((value) => {
-      res.json(value);
-    });
+    try {
+      await Posts.updatePost(req.params.id, req.body).then((value) => {
+        res.json(value);
+      });
+    } catch (error) {
+      // or catch the error and send back an error
+      res.status(500).json({ error });
+    }
   })
   .delete(requireAuth, async (req, res) => {
-    await Posts.deletePost(req.params.id).then((value) => {
-      res.json({ deleted: value });
-    });
+    try {
+      await Posts.deletePost(req.params.id).then((value) => {
+        res.json({ deleted: value });
+      });
+    } catch (error) {
+      // or catch the error and send back an error
+      res.status(500).json({ error });
+    }
   });
 
 // signin route
@@ -66,6 +92,25 @@ router.post('/signup', async (req, res) => {
   try {
     const token = await UserController.signup(req.body);
     res.json({ token, email: req.body.email });
+  } catch (error) {
+    res.status(422).send({ error: error.toString() });
+  }
+});
+
+router.post('/profile', async (req, res) => {
+  try {
+    const { sub } = jwt.decode(req.headers.authorization, process.env.AUTH_SECRET);
+    const user = await UserController.getUser(sub);
+    const response = {
+      displayname: user.displayname,
+      email: user.email,
+      followerList: user.followerList,
+      followingList: user.followingList,
+      username: user.username,
+      badges: user.badges,
+      profilePic: user.profilePic,
+    };
+    res.json(response);
   } catch (error) {
     res.status(422).send({ error: error.toString() });
   }
