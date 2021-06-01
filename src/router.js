@@ -143,11 +143,26 @@ router.post('/profile/follow/:username', async (req, res) => {
   }
 });
 
-router.post('/profile/unfollow/:id', async (req, res) => {
+router.get('/profile/follow/:username', async (req, res) => {
   try {
     const { sub } = jwt.decode(req.headers.authorization, process.env.AUTH_SECRET);
     const user = await UserController.getUser(sub);
-    const otherUser = await UserController.getUser(req.params.id);
+    const otherUser = await UserController.getUserName(req.params.username);
+    if (user === undefined || otherUser === undefined) {
+      res.status(400).send({ error: 'Invalid user' });
+      return;
+    }
+    res.json(user.followingList.includes(otherUser.id));
+  } catch (error) {
+    res.status(422).send({ error: error.toString() });
+  }
+});
+
+router.post('/profile/unfollow/:username', async (req, res) => {
+  try {
+    const { sub } = jwt.decode(req.headers.authorization, process.env.AUTH_SECRET);
+    const user = await UserController.getUser(sub);
+    const otherUser = await UserController.getUser(req.params.username);
     if (user === undefined || otherUser === undefined) {
       res.status(400).send({ error: 'Invalid user' });
     }
