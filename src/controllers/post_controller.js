@@ -6,6 +6,8 @@ export const createPost = async (user, postFields) => {
   post.author = user;
   post.caption = postFields.caption;
   post.content = postFields.content;
+  post.preview = postFields.preview;
+  post.type = postFields.type;
   post.viewLimit = postFields.viewLimit;
   post.currentViews = postFields.currentViews;
   post.hashtags = postFields.hashtags;

@@ -11,6 +11,8 @@ const UserSchema = new Schema({
   followingList: { type: [Schema.Types.ObjectId], ref: 'User' },
   followerList: { type: [Schema.Types.ObjectId], ref: 'User' },
   archivedFeed: {type: [Schema.Types.ObjectId], ref: 'Post' },
+  profilePic: { type: String },
+  badges: { type: [Schema.Types.ObjectId], ref: 'User' },
 },
 {
   toObject: { virtuals: true },
