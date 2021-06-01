@@ -3,6 +3,7 @@ import jwt from 'jwt-simple';
 import * as Posts from './controllers/post_controller';
 import * as UserController from './controllers/user_controller';
 import { requireAuth, requireSignin } from './services/passport';
+import signS3 from './services/s3';
 
 const router = Router();
 
@@ -177,5 +178,7 @@ router.post('/profile/unfollow/:username', async (req, res) => {
     res.status(422).send({ error: error.toString() });
   }
 });
+
+router.get('/sign-s3', signS3);
 
 export default router;
