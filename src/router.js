@@ -163,7 +163,7 @@ router.post('/profile/unfollow/:username', async (req, res) => {
   try {
     const { sub } = jwt.decode(req.headers.authorization, process.env.AUTH_SECRET);
     const user = await UserController.getUser(sub);
-    const otherUser = await UserController.getUser(req.params.username);
+    const otherUser = await UserController.getUserName(req.params.username);
     if (user === undefined || otherUser === undefined) {
       res.status(400).send({ error: 'Invalid user' });
     }
