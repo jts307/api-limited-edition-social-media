@@ -85,6 +85,15 @@ export const getUser = async (id) => {
   }
 };
 
+export const getUserName = async (username) => {
+  try {
+    return await User.findOne({ username });
+  } catch (error) {
+    console.log(`get user error: ${error}`);
+    throw new Error(`get user error: ${error}`);
+  }
+};
+
 // helper for encoding a new token for a user object
 function tokenForUser(user) {
   const timestamp = new Date().getTime();
