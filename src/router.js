@@ -109,8 +109,71 @@ router.post('/profile', async (req, res) => {
       username: user.username,
       badges: user.badges,
       profilePic: user.profilePic,
+      id: user.id,
     };
     res.json(response);
+  } catch (error) {
+    res.status(422).send({ error: error.toString() });
+  }
+});
+
+router.post('/profile/follow/:username', async (req, res) => {
+  try {
+    const { sub } = jwt.decode(req.headers.authorization, process.env.AUTH_SECRET);
+    const user = await UserController.getUser(sub);
+    const otherUser = await UserController.getUserName(req.params.username);
+    if (user === undefined || otherUser === undefined) {
+      res.status(400).send({ error: 'Invalid user' });
+      return;
+    }
+    if (!user.followingList.includes(otherUser.id)) {
+      user.followingList.push(otherUser.id);
+      otherUser.followerList.push(user.id);
+
+      await user.save();
+      try {
+        await otherUser.save();
+      } catch (error) { // Catching version error
+        res.status(400).send({ error: 'User cannot follow themselves' });
+      }
+    }
+    res.json({ user: user.followingList, otherUser: otherUser.followerList });
+  } catch (error) {
+    console.error(error);
+    res.status(422).send({ error: error.toString() });
+  }
+});
+
+router.get('/profile/follow/:username', async (req, res) => {
+  try {
+    const { sub } = jwt.decode(req.headers.authorization, process.env.AUTH_SECRET);
+    const user = await UserController.getUser(sub);
+    const otherUser = await UserController.getUserName(req.params.username);
+    if (user === undefined || otherUser === undefined) {
+      res.status(400).send({ error: 'Invalid user' });
+      return;
+    }
+    res.json(user.followingList.includes(otherUser.id));
+  } catch (error) {
+    res.status(422).send({ error: error.toString() });
+  }
+});
+
+router.post('/profile/unfollow/:username', async (req, res) => {
+  try {
+    const { sub } = jwt.decode(req.headers.authorization, process.env.AUTH_SECRET);
+    const user = await UserController.getUser(sub);
+    const otherUser = await UserController.getUserName(req.params.username);
+    if (user === undefined || otherUser === undefined) {
+      res.status(400).send({ error: 'Invalid user' });
+    }
+    if (user.followingList.includes(otherUser.id)) {
+      user.followingList.remove(otherUser.id);
+      otherUser.followerList.remove(user.id);
+      await user.save();
+      await otherUser.save();
+    }
+    res.json({ user: user.followingList, otherUser: otherUser.followerList });
   } catch (error) {
     res.status(422).send({ error: error.toString() });
   }
