@@ -61,4 +61,3 @@ export const updatePost = async (id, postFields) => {
     throw new Error(`update post error: ${error}`);
   }
 };
-

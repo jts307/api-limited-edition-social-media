@@ -47,7 +47,7 @@ export const signup = async ({
 export const search = async (name) => {
   // All posts
   try {
-    const user = await User.find({ $text: { $search: name } })
+    const user = await User.find({ $text: { $search: name } });
     return user;
   } catch (error) {
     throw new Error(`get users error: ${error}`);
@@ -58,23 +58,21 @@ export const addArchive = async (userid, postid) => {
   try {
     // add post to archivedFeed by id
     const userID = await User.findById(userid);
-    userID.update({$push: {archivedFeed: postid}});
-  }
-  catch (error) {
+    userID.update({ $push: { archivedFeed: postid } });
+  } catch (error) {
     throw new Error(`get users error: ${error}`);
   }
-}
+};
 
 export const getArchivedFeed = async (userid) => {
   try {
     // add post to archivedFeed by id
-    const userID = await User.findById(userid).populate(archivedFeed);
+    const userID = await User.findById(userid).populate('archivedFeed');
     return userID.archivedFeed;
-  }
-  catch (error) {
+  } catch (error) {
     throw new Error(`get users error: ${error}`);
   }
-}
+};
 
 export const getUser = async (id) => {
   try {

@@ -131,6 +131,11 @@ router.post('/profile', async (req, res) => {
 router.post('/archive', async (req, res) => {
   try {
     await UserController.addArchive(req.user.id, req.body.postid);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: error.toString() });
+  }
+});
 router.post('/profile/follow/:username', async (req, res) => {
   try {
     const { sub } = jwt.decode(req.headers.authorization, process.env.AUTH_SECRET);
@@ -154,7 +159,7 @@ router.post('/profile/follow/:username', async (req, res) => {
     res.json({ user: user.followingList, otherUser: otherUser.followerList });
   } catch (error) {
     console.error(error);
-    res.status(422).send({ error: error.toString() });
+    res.status(500).send({ error: error.toString() });
   }
 });
 
@@ -178,6 +183,11 @@ router.get('/archivedFeed', async (req, res) => {
   try {
     const archivefeed = await UserController.getArchivedFeed(req.user.id);
     res.json(archivefeed);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: error.toString() });
+  }
+});
 router.post('/profile/unfollow/:username', async (req, res) => {
   try {
     const { sub } = jwt.decode(req.headers.authorization, process.env.AUTH_SECRET);
@@ -198,9 +208,6 @@ router.post('/profile/unfollow/:username', async (req, res) => {
   }
 });
 
-
 router.get('/sign-s3', signS3);
 
 export default router;
-
-

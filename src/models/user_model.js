@@ -10,7 +10,7 @@ const UserSchema = new Schema({
   displayname: { type: String },
   followingList: { type: [Schema.Types.ObjectId], ref: 'User' },
   followerList: { type: [Schema.Types.ObjectId], ref: 'User' },
-  archivedFeed: {type: [Schema.Types.ObjectId], ref: 'Post' },
+  archivedFeed: { type: [Schema.Types.ObjectId], ref: 'Post' },
   profilePic: { type: String },
   badges: { type: [Schema.Types.ObjectId], ref: 'User' },
 },
@@ -53,7 +53,7 @@ UserSchema.methods.comparePassword = async function comparePassword(candidatePas
 };
 
 // create a PostModel class from schema
-UserSchema.index({username: "text"})
+UserSchema.index({ username: 'text' });
 const UserModel = mongoose.model('User', UserSchema);
 
 export default UserModel;
