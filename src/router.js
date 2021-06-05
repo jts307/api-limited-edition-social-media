@@ -102,7 +102,11 @@ router.get('/search', async (req, res) => {
   try {
     const users = await UserController.search();
     res.json(users);
-    
+  } catch (error) {
+    res.status(500).send({ error: error.toString()});
+  }  
+});
+
 router.post('/profile', async (req, res) => {
   try {
     const { sub } = jwt.decode(req.headers.authorization, process.env.AUTH_SECRET);
