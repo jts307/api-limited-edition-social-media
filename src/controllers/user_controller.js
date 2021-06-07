@@ -1,6 +1,7 @@
 import jwt from 'jwt-simple';
 import dotenv from 'dotenv';
 import User from '../models/user_model';
+import Post from '../models/post_model';
 
 // config init
 dotenv.config({ silent: true });
@@ -48,8 +49,11 @@ export const signup = async ({
 export const addArchive = async (userid, postid) => {
   try {
     // add post to archivedFeed by id
-    const userID = await User.findById(userid);
-    userID.update({ $push: { archivedFeed: postid } });
+    const user = await User.findById(userid).populate('archivedFeed');
+    const post = await Post.findById(postid);
+    user.archivedFeed.push(post);
+    await user.save();
+    return user.archivedFeed;
   } catch (error) {
     throw new Error(`get users error: ${error}`);
   }
@@ -57,11 +61,10 @@ export const addArchive = async (userid, postid) => {
 
 export const getArchivedFeed = async (userid) => {
   try {
-    // add post to archivedFeed by id
-    const userID = await User.findById(userid).populate('archivedFeed');
-    return userID.archivedFeed;
+    const user = await User.findById(userid).populate('archivedFeed');
+    return user.archivedFeed;
   } catch (error) {
-    throw new Error(`get users error: ${error}`);
+    throw new Error(`get archived posts error: ${error}`);
   }
 };
 
