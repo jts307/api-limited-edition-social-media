@@ -198,4 +198,13 @@ router.post('/user/:username', async (req, res) => {
 
 router.get('/sign-s3', signS3);
 
+router.get('/search/:username', async (req, res) => {
+  try {
+    const users = await UserController.search(req.params.username);
+    res.json(users);
+  } catch (error) {
+    res.status(500).send({ error: error.toString() });
+  }
+});
+
 export default router;
