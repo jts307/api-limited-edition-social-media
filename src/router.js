@@ -212,10 +212,20 @@ router.post('/user/:username', async (req, res) => {
       res.status(400).send({ error: 'Invalid user' });
     }
     const {
-      displayName, followerList, followingList, profilePic, badges, isFollowerListVisible, isFollowingListVisible, isBadgeListVisible,
+      displayname, profilePic,
+      followerList, isFollowerListVisible,
+      followingList, isFollowingListVisible,
+      badges, isBadgeListVisible,
     } = user;
     res.json({
-      displayName, followerList, followingList, profilePic, badges, isFollowerListVisible, isFollowingListVisible, isBadgeListVisible,
+      displayname,
+      profilePic,
+      followerList,
+      isFollowerListVisible: wrapUndefined(isFollowerListVisible),
+      followingList,
+      isFollowingListVisible: wrapUndefined(isFollowingListVisible),
+      badges,
+      isBadgeListVisible: wrapUndefined(isBadgeListVisible),
     });
   } catch (error) {
     res.status(422).send({ error: error.toString() });
