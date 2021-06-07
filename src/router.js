@@ -98,14 +98,14 @@ router.post('/signup', async (req, res) => {
 });
 
 // search route
-router.get('/search', async (req, res) => {
-  try {
-    const users = await UserController.search();
-    res.json(users);
-  } catch (error) {
-    res.status(500).send({ error: error.toString() });
-  }
-});
+// router.get('/search', async (req, res) => {
+//   try {
+//     const users = await UserController.search();
+//     res.json(users);
+//   } catch (error) {
+//     res.status(500).send({ error: error.toString() });
+//   }
+// });
 
 router.post('/profile', async (req, res) => {
   try {
