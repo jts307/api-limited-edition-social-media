@@ -52,6 +52,7 @@ UserSchema.methods.comparePassword = async function comparePassword(candidatePas
 };
 
 // create a PostModel class from schema
+// UserSchema.index({ username: 'text' });
 const UserModel = mongoose.model('User', UserSchema);
 
 export default UserModel;
