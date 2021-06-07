@@ -94,4 +94,3 @@ export const search = async (name) => {
     throw new Error(`get users error: ${error}`);
   }
 };
-
