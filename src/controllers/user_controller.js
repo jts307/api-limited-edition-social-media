@@ -63,7 +63,7 @@ export const getArchivedFeed = async (userid) => {
   try {
     const user = await User.findById(userid).populate('archivedFeed');
     await user.archivedFeed.forEach((post) => {
-      post.populate('author');
+      post = post.populate('author');
     });
     return user.archivedFeed;
   } catch (error) {
