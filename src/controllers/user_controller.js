@@ -91,7 +91,11 @@ function tokenForUser(user) {
 
 export const search = async (name) => {
   try {
-    const user = await User.find({ username: new RegExp(name, 'gi') });
+    const user = await User.find({
+      username: new RegExp(name, 'gi'),
+    }, null, {
+      sort: { displayname: 1 },
+    });
     return user;
   } catch (error) {
     throw new Error(`get users error: ${error}`);
