@@ -13,6 +13,9 @@ const UserSchema = new Schema({
   archivedFeed: { type: [Schema.Types.ObjectId], ref: 'Post' },
   profilePic: { type: String },
   badges: { type: [Schema.Types.ObjectId], ref: 'User' },
+  isFollowingListVisible: { type: Boolean },
+  isFollowerListVisible: { type: Boolean },
+  isBadgeListVisible: { type: Boolean },
 },
 {
   toObject: { virtuals: true },
@@ -53,7 +56,6 @@ UserSchema.methods.comparePassword = async function comparePassword(candidatePas
 };
 
 // create a PostModel class from schema
-// UserSchema.index({ username: 'text' });
 const UserModel = mongoose.model('User', UserSchema);
 
 export default UserModel;
