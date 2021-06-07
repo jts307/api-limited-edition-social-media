@@ -61,10 +61,8 @@ export const addArchive = async (userid, postid) => {
 
 export const getArchivedFeed = async (userid) => {
   try {
-    const user = await User.findById(userid).populate('archivedFeed');
-    await user.archivedFeed.forEach((post) => {
-      post.author = User.findById(post.author);
-    });
+    // found out how to deep populate from here: https://stackoverflow.com/questions/18867628/mongoose-deep-population-populate-a-populated-field
+    const user = await User.findById(userid).populate({ path: 'Post', populate: { path: 'author' } });
     return user.archivedFeed;
   } catch (error) {
     throw new Error(`get archived posts error: ${error}`);
