@@ -97,16 +97,6 @@ router.post('/signup', async (req, res) => {
   }
 });
 
-// search route
-// router.get('/search', async (req, res) => {
-//   try {
-//     const users = await UserController.search();
-//     res.json(users);
-//   } catch (error) {
-//     res.status(500).send({ error: error.toString() });
-//   }
-// });
-
 router.post('/profile', async (req, res) => {
   try {
     const { sub } = jwt.decode(req.headers.authorization, process.env.AUTH_SECRET);
@@ -130,12 +120,29 @@ router.post('/profile', async (req, res) => {
 // archive route
 router.post('/archive', async (req, res) => {
   try {
-    await UserController.addArchive(req.user.id, req.body.postid);
+    const { sub } = jwt.decode(req.headers.authorization, process.env.AUTH_SECRET);
+    const user = await UserController.getUser(sub);
+    const archive = await UserController.addArchive(user.id, req.body.postId);
+    res.json(archive);
   } catch (error) {
     console.error(error);
     res.status(500).send({ error: error.toString() });
   }
 });
+
+// archiveFeed route
+router.get('/archive', async (req, res) => {
+  try {
+    const { sub } = jwt.decode(req.headers.authorization, process.env.AUTH_SECRET);
+    const user = await UserController.getUser(sub);
+    const archivefeed = await UserController.getArchivedFeed(user.id);
+    res.json(archivefeed);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: error.toString() });
+  }
+});
+
 router.post('/profile/follow/:username', async (req, res) => {
   try {
     const { sub } = jwt.decode(req.headers.authorization, process.env.AUTH_SECRET);
@@ -178,16 +185,6 @@ router.get('/profile/follow/:username', async (req, res) => {
   }
 });
 
-// archiveFeed route
-router.get('/archivedFeed', async (req, res) => {
-  try {
-    const archivefeed = await UserController.getArchivedFeed(req.user.id);
-    res.json(archivefeed);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send({ error: error.toString() });
-  }
-});
 router.post('/profile/unfollow/:username', async (req, res) => {
   try {
     const { sub } = jwt.decode(req.headers.authorization, process.env.AUTH_SECRET);
