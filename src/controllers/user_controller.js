@@ -35,9 +35,31 @@ export const signup = async ({
   user.profilePic = picURL;
   user.followingList = [];
   user.followerList = [];
+  // each user has their own unique collection of archived posts
+  user.archivedFeed = [];
   user.badges = [];
   await user.save();
   return tokenForUser(user);
+};
+
+export const addArchive = async (userid, postid) => {
+  try {
+    // add post to archivedFeed by id
+    const userID = await User.findById(userid);
+    userID.update({ $push: { archivedFeed: postid } });
+  } catch (error) {
+    throw new Error(`get users error: ${error}`);
+  }
+};
+
+export const getArchivedFeed = async (userid) => {
+  try {
+    // add post to archivedFeed by id
+    const userID = await User.findById(userid).populate('archivedFeed');
+    return userID.archivedFeed;
+  } catch (error) {
+    throw new Error(`get users error: ${error}`);
+  }
 };
 
 export const getUser = async (id) => {
