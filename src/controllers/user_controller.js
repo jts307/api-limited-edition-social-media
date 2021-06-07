@@ -61,7 +61,10 @@ export const addArchive = async (userid, postid) => {
 
 export const getArchivedFeed = async (userid) => {
   try {
-    const user = await User.findById(userid).populate('archivedFeed').populate('archivedFeed.Post.author');
+    const user = await User.findById(userid).populate('archivedFeed');
+    await user.archivedFeed.forEach((post) => {
+      post.populate('author');
+    });
     return user.archivedFeed;
   } catch (error) {
     throw new Error(`get archived posts error: ${error}`);
