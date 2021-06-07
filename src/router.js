@@ -179,6 +179,23 @@ router.post('/profile/unfollow/:username', async (req, res) => {
   }
 });
 
+router.post('/user/:username', async (req, res) => {
+  try {
+    const user = await UserController.getUserName(req.params.username);
+    if (user === undefined) {
+      res.status(400).send({ error: 'Invalid user' });
+    }
+    const {
+      displayName, followerList, followingList, profilePic, badges,
+    } = user;
+    res.json({
+      displayName, followerList, followingList, profilePic, badges,
+    });
+  } catch (error) {
+    res.status(422).send({ error: error.toString() });
+  }
+});
+
 router.get('/sign-s3', signS3);
 
 export default router;
