@@ -36,6 +36,9 @@ export const signup = async ({
   user.followingList = [];
   user.followerList = [];
   user.badges = [];
+  user.isFollowingListVisible = true;
+  user.isFollowerListVisible = true;
+  user.isBadgeListVisible = true;
   await user.save();
   return tokenForUser(user);
 };
