@@ -122,8 +122,18 @@ router.post('/profile', async (req, res) => {
   }
 });
 
+router.get('/profile', async (req, res) => {
+  try {
+    await UserController.getUsers().then((value) => {
+      res.json(value);
+    });
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+});
+
 // For images but for more later
-router.put('profile', async (req, res) => {
+router.put('/profile', async (req, res) => {
   try {
     const { sub } = jwt.decode(req.headers.authorization, process.env.AUTH_SECRET);
     const user = await UserController.getUser(sub);
@@ -148,12 +158,23 @@ router.post('/archive', async (req, res) => {
   }
 });
 
-// archiveFeed route
 router.get('/archive', async (req, res) => {
   try {
     const { sub } = jwt.decode(req.headers.authorization, process.env.AUTH_SECRET);
     const user = await UserController.getUser(sub);
     const archivefeed = await UserController.getArchivedFeed(user.id);
+    res.json(archivefeed);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: error.toString() });
+  }
+});
+
+router.delete('/archive', async (req, res) => {
+  try {
+    const { sub } = jwt.decode(req.headers.authorization, process.env.AUTH_SECRET);
+    const user = await UserController.getUser(sub);
+    const archivefeed = await UserController.deleteArchive(user.id, req.body.postId);
     res.json(archivefeed);
   } catch (error) {
     console.error(error);

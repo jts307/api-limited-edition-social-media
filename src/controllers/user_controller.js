@@ -54,6 +54,16 @@ export const updateProfilePic = async (userid, url) => {
   }
 };
 
+export const getUsers = async () => {
+  // All posts
+  try {
+    const allPosts = await User.find({}, null, { sort: { createdAt: -1 } });
+    return allPosts;
+  } catch (error) {
+    throw new Error(`get posts error: ${error}`);
+  }
+};
+
 export const addArchive = async (userid, postid) => {
   try {
     // add post to archivedFeed by id
@@ -68,6 +78,21 @@ export const addArchive = async (userid, postid) => {
     if (!duplicate) {
       const post = await Post.findById(postid);
       user.archivedFeed.unshift(post);
+    }
+    await user.save();
+    return user.archivedFeed;
+  } catch (error) {
+    throw new Error(`get users error: ${error}`);
+  }
+};
+
+export const deleteArchive = async (userid, postid) => {
+  try {
+    // delete post from archivedFeed by id
+    const user = await User.findById(userid);
+    const postIndex = user.archivedFeed.indexOf(postid);
+    if (postIndex > -1) {
+      user.archivedFeed.splice(postIndex, 1);
     }
     await user.save();
     return user.archivedFeed;
