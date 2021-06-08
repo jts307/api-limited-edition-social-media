@@ -107,7 +107,6 @@ router.post('/profile', async (req, res) => {
       followerList: user.followerList,
       followingList: user.followingList,
       username: user.username,
-      badges: user.badges,
       profilePic: user.profilePic,
       id: user.id,
     };
@@ -212,10 +211,10 @@ router.post('/user/:username', async (req, res) => {
       res.status(400).send({ error: 'Invalid user' });
     }
     const {
-      displayName, followerList, followingList, profilePic, badges,
+      displayName, followerList, followingList, profilePic,
     } = user;
     res.json({
-      displayName, followerList, followingList, profilePic, badges,
+      displayName, followerList, followingList, profilePic,
     });
   } catch (error) {
     res.status(422).send({ error: error.toString() });
