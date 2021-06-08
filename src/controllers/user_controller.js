@@ -46,7 +46,6 @@ export const signup = async ({
   return tokenForUser(user);
 };
 
-
 export const updateProfilePic = async (userid, url) => {
   // Update photo url
   try {
