@@ -51,7 +51,9 @@ export const addArchive = async (userid, postid) => {
     // add post to archivedFeed by id
     const user = await User.findById(userid).populate('archivedFeed');
     const post = await Post.findById(postid);
-    user.archivedFeed.unshift(post);
+    if (user.archivedFeed.indexOf(post) === -1) {
+      user.archivedFeed.unshift(post);
+    }
     await user.save();
     return user.archivedFeed;
   } catch (error) {
