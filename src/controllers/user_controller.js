@@ -68,6 +68,21 @@ export const addArchive = async (userid, postid) => {
   }
 };
 
+export const deleteArchive = async (userid, postid) => {
+  try {
+    // delete post from archivedFeed by id
+    const user = await User.findById(userid);
+    const postIndex = user.archivedFeed.indexOf(postid);
+    if (postIndex > -1) {
+      user.archivedFeed.splice(postIndex, 1);
+    }
+    await user.save();
+    return user.archivedFeed;
+  } catch (error) {
+    throw new Error(`get users error: ${error}`);
+  }
+};
+
 export const getArchivedFeed = async (userid) => {
   try {
     // found out how to deep populate from here: https://stackoverflow.com/questions/18867628/mongoose-deep-population-populate-a-populated-field
