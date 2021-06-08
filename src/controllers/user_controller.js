@@ -38,6 +38,9 @@ export const signup = async ({
   user.followerList = [];
   // each user has their own unique collection of archived posts
   user.archivedFeed = [];
+  user.isFollowingListVisible = true;
+  user.isFollowerListVisible = true;
+  user.isBadgeListVisible = true;
   await user.save();
   return tokenForUser(user);
 };
@@ -47,7 +50,9 @@ export const addArchive = async (userid, postid) => {
     // add post to archivedFeed by id
     const user = await User.findById(userid).populate('archivedFeed');
     const post = await Post.findById(postid);
-    user.archivedFeed.push(post);
+    if (user.archivedFeed.indexOf(post) === -1) {
+      user.archivedFeed.unshift(post);
+    }
     await user.save();
     return user.archivedFeed;
   } catch (error) {
@@ -57,7 +62,8 @@ export const addArchive = async (userid, postid) => {
 
 export const getArchivedFeed = async (userid) => {
   try {
-    const user = await User.findById(userid).populate('archivedFeed');
+    // found out how to deep populate from here: https://stackoverflow.com/questions/18867628/mongoose-deep-population-populate-a-populated-field
+    const user = await User.findById(userid).populate({ path: 'archivedFeed', populate: { path: 'author' } });
     return user.archivedFeed;
   } catch (error) {
     throw new Error(`get archived posts error: ${error}`);
@@ -90,7 +96,11 @@ function tokenForUser(user) {
 
 export const search = async (name) => {
   try {
-    const user = await User.find({ username: new RegExp(name, 'gi') });
+    const user = await User.find({
+      username: new RegExp(name, 'gi'),
+    }, null, {
+      sort: { displayname: 1 },
+    });
     return user;
   } catch (error) {
     throw new Error(`get users error: ${error}`);

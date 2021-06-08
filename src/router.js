@@ -97,6 +97,10 @@ router.post('/signup', async (req, res) => {
   }
 });
 
+function wrapUndefined(obj) {
+  return obj === undefined ? true : obj;
+}
+
 router.post('/profile', async (req, res) => {
   try {
     const { sub } = jwt.decode(req.headers.authorization, process.env.AUTH_SECRET);
@@ -109,6 +113,9 @@ router.post('/profile', async (req, res) => {
       username: user.username,
       profilePic: user.profilePic,
       id: user.id,
+      isFollowingListVisible: wrapUndefined(user.isFollowingListVisible),
+      isFollowerListVisible: wrapUndefined(user.isFollowerListVisible),
+      isBadgeListVisible: wrapUndefined(user.isBadgeListVisible),
     };
     res.json(response);
   } catch (error) {
@@ -211,10 +218,49 @@ router.post('/user/:username', async (req, res) => {
       res.status(400).send({ error: 'Invalid user' });
     }
     const {
-      displayName, followerList, followingList, profilePic,
+      displayname, profilePic,
+      followerList, isFollowerListVisible,
+      followingList, isFollowingListVisible,
     } = user;
     res.json({
-      displayName, followerList, followingList, profilePic,
+      displayname,
+      profilePic,
+      followerList,
+      isFollowerListVisible: wrapUndefined(isFollowerListVisible),
+      followingList,
+      isFollowingListVisible: wrapUndefined(isFollowingListVisible),
+    });
+  } catch (error) {
+    res.status(422).send({ error: error.toString() });
+  }
+});
+
+router.put('/user/:field', async (req, res) => {
+  try {
+    const { sub } = jwt.decode(req.headers.authorization, process.env.AUTH_SECRET);
+    const user = await UserController.getUser(sub);
+    if (user === undefined) {
+      res.status(400).send({ error: 'Invalid user' });
+    }
+    switch (req.params.field) {
+      case 'isFollowingListVisible':
+        user.isFollowingListVisible = !user.isFollowingListVisible;
+        break;
+      case 'isFollowerListVisible':
+        user.isFollowerListVisible = !user.isFollowerListVisible;
+        break;
+      case 'isBadgeListVisible':
+        user.isBadgeListVisible = !user.isBadgeListVisible;
+        break;
+      default:
+        res.status(422).send('Bad input to profile visible endpoint');
+    }
+
+    user.save();
+    res.json({
+      isFollowingListVisible: user.isFollowingListVisible,
+      isFollowerListVisible: user.isFollowerListVisible,
+      isBadgeListVisible: user.isBadgeListVisible,
     });
   } catch (error) {
     res.status(422).send({ error: error.toString() });
