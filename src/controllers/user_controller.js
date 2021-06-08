@@ -40,7 +40,6 @@ export const signup = async ({
   user.archivedFeed = [];
   user.isFollowingListVisible = true;
   user.isFollowerListVisible = true;
-  user.isBadgeListVisible = true;
   await user.save();
   return tokenForUser(user);
 };

@@ -115,7 +115,6 @@ router.post('/profile', async (req, res) => {
       id: user.id,
       isFollowingListVisible: wrapUndefined(user.isFollowingListVisible),
       isFollowerListVisible: wrapUndefined(user.isFollowerListVisible),
-      isBadgeListVisible: wrapUndefined(user.isBadgeListVisible),
     };
     res.json(response);
   } catch (error) {
@@ -249,9 +248,6 @@ router.put('/user/:field', async (req, res) => {
       case 'isFollowerListVisible':
         user.isFollowerListVisible = !user.isFollowerListVisible;
         break;
-      case 'isBadgeListVisible':
-        user.isBadgeListVisible = !user.isBadgeListVisible;
-        break;
       default:
         res.status(422).send('Bad input to profile visible endpoint');
     }
@@ -260,7 +256,6 @@ router.put('/user/:field', async (req, res) => {
     res.json({
       isFollowingListVisible: user.isFollowingListVisible,
       isFollowerListVisible: user.isFollowerListVisible,
-      isBadgeListVisible: user.isBadgeListVisible,
     });
   } catch (error) {
     res.status(422).send({ error: error.toString() });

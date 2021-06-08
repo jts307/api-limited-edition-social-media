@@ -14,7 +14,6 @@ const UserSchema = new Schema({
   profilePic: { type: String },
   isFollowingListVisible: { type: Boolean },
   isFollowerListVisible: { type: Boolean },
-  isBadgeListVisible: { type: Boolean },
 },
 {
   toObject: { virtuals: true },
