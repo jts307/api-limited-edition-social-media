@@ -48,7 +48,7 @@ export const updateProfilePic = async (userid, url) => {
   // Update photo url
   try {
     const updatedProfile = await User.findByIdAndUpdate(userid, { profilePic: url }, { new: true });
-    return updatedProfile;
+    return updatedProfile.profilePic;
   } catch (error) {
     throw new Error(`update pfp error: ${error}`);
   }
