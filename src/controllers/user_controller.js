@@ -94,7 +94,7 @@ export const deleteArchive = async (userid, postid) => {
     if (postIndex > -1) {
       user.archivedFeed.splice(postIndex, 1);
     }
-    await user.save();
+    await User.findByIdAndUpdate(userid, { archivedFeed: user.archivedFeed }, { new: true });
     return user.archivedFeed;
   } catch (error) {
     throw new Error(`get users error: ${error}`);
