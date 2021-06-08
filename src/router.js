@@ -137,8 +137,8 @@ router.put('/profile', async (req, res) => {
   try {
     const { sub } = jwt.decode(req.headers.authorization, process.env.AUTH_SECRET);
     const user = await UserController.getUser(sub);
-    const pfp = await UserController.updateProfilePic(user.id, req.body.profileUrl);
-    res.json(pfp);
+    await UserController.updateProfilePic(user.id, req.body.profileUrl);
+    res.json(user);
   } catch (error) {
     console.error(error);
     res.status(500).send({ error: error.toString() });
