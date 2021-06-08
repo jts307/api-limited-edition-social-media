@@ -38,10 +38,8 @@ export const signup = async ({
   user.followerList = [];
   // each user has their own unique collection of archived posts
   user.archivedFeed = [];
-  user.badges = [];
   user.isFollowingListVisible = true;
   user.isFollowerListVisible = true;
-  user.isBadgeListVisible = true;
   await user.save();
   return tokenForUser(user);
 };

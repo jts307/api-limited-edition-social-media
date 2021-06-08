@@ -12,10 +12,8 @@ const UserSchema = new Schema({
   followerList: { type: [Schema.Types.ObjectId], ref: 'User' },
   archivedFeed: { type: [Schema.Types.ObjectId], ref: 'Post' },
   profilePic: { type: String },
-  badges: { type: [Schema.Types.ObjectId], ref: 'User' },
   isFollowingListVisible: { type: Boolean },
   isFollowerListVisible: { type: Boolean },
-  isBadgeListVisible: { type: Boolean },
 },
 {
   toObject: { virtuals: true },
