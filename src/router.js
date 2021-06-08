@@ -170,7 +170,7 @@ router.get('/archive', async (req, res) => {
   }
 });
 
-router.delete('/archive', async (req, res) => {
+router.put('/archive', async (req, res) => {
   try {
     const { sub } = jwt.decode(req.headers.authorization, process.env.AUTH_SECRET);
     const user = await UserController.getUser(sub);
