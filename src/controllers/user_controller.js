@@ -46,6 +46,16 @@ export const signup = async ({
   return tokenForUser(user);
 };
 
+export const updateProfilePic = async (userid, url) => {
+  // Update photo url
+  try {
+    const updatedProfile = await User.findByIdAndUpdate(userid, url, { new: true });
+    return updatedProfile;
+  } catch (error) {
+    throw new Error(`update pfp error: ${error}`);
+  }
+};
+
 export const addArchive = async (userid, postid) => {
   try {
     // add post to archivedFeed by id

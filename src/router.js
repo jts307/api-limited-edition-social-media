@@ -124,6 +124,19 @@ router.post('/profile', async (req, res) => {
   }
 });
 
+// For images but for more later
+router.put('profile', async (req, res) => {
+  try {
+    const { sub } = jwt.decode(req.headers.authorization, process.env.AUTH_SECRET);
+    const user = await UserController.getUser(sub);
+    const pfp = await UserController.updateProfilePic(user.id, req.body.profilePic);
+    res.json(pfp);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: error.toString() });
+  }
+});
+
 // archive route
 router.post('/archive', async (req, res) => {
   try {
