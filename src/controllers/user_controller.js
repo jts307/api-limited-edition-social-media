@@ -56,6 +56,16 @@ export const updateProfilePic = async (userid, url) => {
   }
 };
 
+export const getUsers = async () => {
+  // All posts
+  try {
+    const allPosts = await User.find({}, null, { sort: { createdAt: -1 } });
+    return allPosts;
+  } catch (error) {
+    throw new Error(`get posts error: ${error}`);
+  }
+};
+
 export const addArchive = async (userid, postid) => {
   try {
     // add post to archivedFeed by id

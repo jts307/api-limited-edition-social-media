@@ -124,6 +124,16 @@ router.post('/profile', async (req, res) => {
   }
 });
 
+router.get('/profile', async (req, res) => {
+  try {
+    await UserController.getUsers().then((value) => {
+      res.json(value);
+    });
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+})
+
 // For images but for more later
 router.put('profile', async (req, res) => {
   try {
