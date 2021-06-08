@@ -50,8 +50,15 @@ export const addArchive = async (userid, postid) => {
   try {
     // add post to archivedFeed by id
     const user = await User.findById(userid).populate('archivedFeed');
-    const post = await Post.findById(postid);
-    if (user.archivedFeed.indexOf(post) === -1) {
+    // checking if post is a duplicate
+    let duplicate = false;
+    user.archivedFeed.forEach((archievedPost) => {
+      if (archievedPost.id === postid) {
+        duplicate = true;
+      }
+    });
+    if (!duplicate) {
+      const post = await Post.findById(postid);
       user.archivedFeed.unshift(post);
     }
     await user.save();
