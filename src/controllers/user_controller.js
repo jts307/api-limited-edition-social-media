@@ -90,10 +90,13 @@ export const deleteArchive = async (userid, postid) => {
   try {
     // delete post from archivedFeed by id
     const user = await User.findById(userid).populate('archivedFeed');
-    const postIndex = user.archivedFeed.indexOf(postid);
-    if (postIndex > -1) {
-      user.archivedFeed.splice(postIndex, 1);
-    }
+    let index = 0;
+    user.archivedFeed.forEach((archievedPost) => {
+      if (archievedPost.id === postid) {
+        user.archivedFeed.splice(index, 1);
+      };
+      index += 1;
+    });
     await user.save();
     return user.archivedFeed;
   } catch (error) {
