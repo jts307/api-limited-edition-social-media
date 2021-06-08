@@ -135,7 +135,7 @@ router.get('/profile', async (req, res) => {
 });
 
 // For images but for more later
-router.put('profile', async (req, res) => {
+router.put('/profile', async (req, res) => {
   try {
     const { sub } = jwt.decode(req.headers.authorization, process.env.AUTH_SECRET);
     const user = await UserController.getUser(sub);
